@@ -59,7 +59,7 @@ pipeline {
                     def uploadSpec = """{
                         "files": [
                             {
-                                "pattern": "staging/(*)",c
+                                "pattern": "staging/(*)",
                                 "target": "maven-repo/{1}",
                                 "flat": "false",
                                 "props" : "${properties}",
