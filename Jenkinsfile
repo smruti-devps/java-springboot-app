@@ -16,8 +16,7 @@ pipeline {
             }
         }
     }
-}
-stage("Artifact Publish") {
+    stage("Artifact Publish") {
             steps {
                 script {
                     echo '------------- Artifact Publish Started ------------'
@@ -39,8 +38,6 @@ stage("Artifact Publish") {
                     server.publishBuildInfo(buildInfo)
                     echo '------------ Artifact Publish Ended -----------'  
                 }
-            }   
-        }
-
+            }  
     }
 }
