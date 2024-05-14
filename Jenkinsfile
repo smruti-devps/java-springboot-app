@@ -17,7 +17,7 @@ pipeline {
                 echo "----------- build completed ----------"
             }
         }
-         
+        /* 
         stage("Test Stage"){
             steps{
                 echo "----------- unit test started ----------"
@@ -25,11 +25,36 @@ pipeline {
                 echo "----------- unit test Completed ----------"
             }
         }
+        
+        stage('SonarQube Analysis') {
+            environment {
+                scannerHome = tool 'sonar-scanner-meportal'
+            }
+            steps{
+                withSonarQubeEnv('sonar-server-meportal') {
+                    sh "${scannerHome}/bin/sonar-scanner"
+                }
+            }
+        }
+
+        stage("Quality Gate"){
+            steps {
+                script {
+                    timeout(time: 1, unit: 'HOURS') { 
+                        def qg = waitForQualityGate() 
+                        if (qg.status != 'OK') {
+                            error "Pipeline aborted due to quality gate failure: ${qg.status}"
+                        }
+                    }
+                }
+            }
+        }
+        */
         stage("Artifact Publish") {
             steps {
                 script {
                     echo '------------- Artifact Publish Started ------------'
-                    def server = Artifactory.newServer url:"https://smruti32.jfrog.io//artifactory" ,  credentialsId:"jfrog-cred"
+                    def server = Artifactory.newServer url:"https://smruti32.jfrog.io/artifactory" ,  credentialsId:"jfrog-cred"
                     def properties = "buildid=${env.BUILD_ID},commitid=${GIT_COMMIT}";
                     def uploadSpec = """{
                         "files": [
@@ -49,6 +74,7 @@ pipeline {
                 }
             }   
         }
+
         stage(" Create Docker Image ") {
             steps {
                 script {
