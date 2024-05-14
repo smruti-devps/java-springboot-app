@@ -63,7 +63,7 @@ pipeline {
             steps {
                 script {
                         echo '---------- Docker Publish Started --------'  
-                        docker.withRegistry("smruti32.jfrog.io", 'jfrog-cred'){
+                        docker.withRegistry("https://smruti32.jfrog.io", 'jfrog-cred'){
                         app.push()
                         echo '------------ Docker Publish Ended ---------'  
                     }    
